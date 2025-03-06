@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate tile adhesive needs with our free Tile Adhesive Calculator. Get accurate estimates, top brand recommendations, and shop tiling products via Amazon. Perfect for wall and floor tiling projects in India.">
+    <meta name="keywords" content="tile adhesive calculator, tiling calculator, best tile adhesive India, wall tile adhesive, floor tile adhesive, tiling tools, tiling products amazon">
+    <meta name="author" content="Your Name">
+    <title>Tile Adhesive Calculator - Estimates & Tiling Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border-radius: 0 0 20px 20px;
+            width: 100%;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .calculator {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2a5298;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #2a5298;
+            outline: none;
+        }
+        .unit-toggle {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .unit-toggle button {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .unit-toggle button.active {
+            background: #2a5298;
+            color: white;
+            border-color: #2a5298;
+        }
+        button#calculate {
+            background: #2a5298;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            transition: background 0.3s;
+        }
+        button#calculate:hover {
+            background: #1e3c72;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: none;
+        }
+        #result h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+        .export-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .export-btn:hover {
+            background: #45a049;
+        }
+        .recommendations h4 {
+            color: #2a5298;
+            margin-bottom: 10px;
+        }
+        .sidebar {
+            flex: 1;
+            min-width: 300px;
+        }
+        .ad-section, .affiliate-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .ad-section h3, .affiliate-section h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+        .affiliate-product {
+            margin: 15px 0;
+        }
+        .affiliate-product a {
+            color: #e47911;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .affiliate-product a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #666;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            .calculator, .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Tile Adhesive Calculator</h1>
+            <p>Accurate Estimates & Top Tiling Products</p>
+        </div>
+    </header>
+    <div class="container">
+        <section class="calculator">
+            <div class="input-group">
+                <label>Area:</label>
+                <input type="number" id="area" placeholder="Enter area" step="0.1">
+                <div class="unit-toggle">
+                    <button class="unit active" data-unit="sqft">Square Feet</button>
+                    <button class="unit" data-unit="sqm">Square Meters</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Adhesive Thickness (mm):</label>
+                <input type="number" id="thickness" placeholder="Enter thickness in mm" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>Bag Weight (kg):</label>
+                <input type="number" id="bagWeight" placeholder="Enter bag weight in kg" step="0.1">
+            </div>
+            <button id="calculate" onclick="calculateAdhesive()">Calculate</button>
+            <div id="result"></div>
+            <button class="export-btn" onclick="exportToPDF()">Export to PDF <i class="fas fa-file-pdf"></i></button>
+        </section>
+        <aside class="sidebar">
+            <div class="ad-section">
+                <h3>Sponsored Ad</h3>
+                <!-- Google AdSense Placeholder (Replace with your ad code) -->
+                <div style="background: #ddd; height: 250px; text-align: center; line-height: 250px;">
+                    Ad Space (250x250) - Replace with AdSense Code
+                </div>
+            </div>
+            <div class="affiliate-section">
+                <h3>Recommended Tiling Products</h3>
+                <div class="affiliate-product">
+                    <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">Roff Tile Adhesive (20kg)</a></p>
+                    <p>Perfect for wall and floor tiles, strong bonding.</p>
+                </div>
+                <div class="affiliate-product">
+                    <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">MYK Laticrete Tile Spacer (100 pcs)</a></p>
+                    <p>Ensures perfect tile alignment.</p>
+                </div>
+                <div class="affiliate-product">
+                    <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">Weber Tiling Kit</a></p>
+                    <p>Complete set for professional tiling.</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <section class="container">
+        <h2>Why Use Our Tile Adhesive Calculator?</h2>
+        <p>Planning a tiling project? Our free Tile Adhesive Calculator provides precise estimates for adhesive needs, saving you time and money. Pair it with top tiling products from Amazon and recommended adhesive brands for the best results.</p>
+        <h2>Best Tile Adhesive Brands in India</h2>
+        <p>Discover leading tile adhesive brands like Roff, MYK Laticrete, and Weber, available on Amazon. Shop now and elevate your tiling project!</p>
+    </section>
+    <footer>
+        <p>© 2025 Tiling pro tools. All rights reserved. As an Amazon Associate, we earn from qualifying purchases.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+        let currentUnit = 'sqft';
+
+        document.querySelectorAll('.unit').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.unit').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentUnit = this.dataset.unit;
+                const areaInput = document.getElementById('area');
+                const currentValue = parseFloat(areaInput.value) || 0;
+                if (currentValue > 0) {
+                    areaInput.value = currentUnit === 'sqft' ? 
+                        (currentValue * 10.764).toFixed(2) : 
+                        (currentValue / 10.764).toFixed(2);
+                }
+            });
+        });
+
+        function calculateAdhesive() {
+            const area = parseFloat(document.getElementById('area').value) || 0;
+            const thickness = parseFloat(document.getElementById('thickness').value) || 0;
+            const bagWeight = parseFloat(document.getElementById('bagWeight').value) || 0;
+
+            let totalAreaFeet = currentUnit === 'sqft' ? area : area * 10.764;
+
+            if (totalAreaFeet <= 0 || thickness <= 0 || bagWeight <= 0) {
+                document.getElementById('result').innerHTML = 
+                    'Please enter valid positive values for all fields.';
+                document.getElementById('result').style.display = 'block';
+                return;
+            }
+
+            const baseRate = 1; // kg per sq ft at 5 mm
+            const thicknessFactor = thickness / 5;
+            const totalAdhesiveKg = totalAreaFeet * baseRate * thicknessFactor;
+            const numberOfBags = Math.ceil(totalAdhesiveKg / bagWeight);
+
+            const wallBrands = [
+                "Roff (Pidilite) - Ideal for wall tiles",
+                "MYK Laticrete - Premium wall adhesive",
+                "Weber (Saint-Gobain) - Strong wall bonding"
+            ];
+            const floorBrands = [
+                "Ardex Endura - Best for floor tiles",
+                "Dr. Fixit (Pidilite) - Durable floor adhesive",
+                "Kerakoll - Heavy-duty floor solution"
+            ];
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h3>Results:</h3>
+                <p>Total Area: ${totalAreaFeet.toFixed(2)} sq ft</p>
+                <p>Adhesive Required: ${totalAdhesiveKg.toFixed(2)} kg</p>
+                <p>Number of Bags Needed: ${numberOfBags} (${bagWeight} kg each)</p>
+                <div class="recommendations">
+                    <h4>Recommended for Wall Tiles:</h4>
+                    <ul>${wallBrands.map(brand => `<li>${brand}</li>`).join('')}</ul>
+                    <h4>Recommended for Floor Tiles:</h4>
+                    <ul>${floorBrands.map(brand => `<li>${brand}</li>`).join('')}</ul>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+        }
+
+        function exportToPDF() {
+            const doc = new jsPDF();
+            doc.setFontSize(18);
+            doc.text('Tile Adhesive Calculation Results', 20, 20);
+            doc.setFontSize(12);
+            doc.text(document.getElementById('result').innerText, 20, 30);
+            doc.save('tile_adhesive_results.pdf');
+        }
+    </script>
+    <!-- Google AdSense Script (Replace with your actual AdSense code) -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_CLIENT_ID" crossorigin="anonymous"></script> -->
+</body>
+</html>

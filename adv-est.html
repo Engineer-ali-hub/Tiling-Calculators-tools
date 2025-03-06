@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Accurate tile cost calculator for Indian homeowners and contractors. Calculate flooring and wall tiling costs with material estimates, labor charges, and PDF reports. Get instant tile quantity and skirting calculations.">
+    <title>Advanced Tile Cost Calculator | Floor & Wall Tiling Estimater with materials, labour cost and wasteg factor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2a5a78;
+            --secondary-color: #4b8bb5;
+            --accent-color: #ff6b6b;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --card-background: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .calculator-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin: 1.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            background: var(--card-background);
+            color: var(--text-color);
+        }
+
+        .toggle-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(42, 90, 120, 0.1);
+        }
+
+        .result-card {
+            background: var(--card-background);
+            border-left: 4px solid var(--secondary-color);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .wastage-note {
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+
+        .seo-content {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .seo-content h2 {
+            color: var(--primary-color);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .seo-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .seo-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .seo-content ul li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            .calculator-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .toggle-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .seo-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h1 class="text-center mb-4" style="color: var(--primary-color); font-weight: 700;">Advanced Tile Cost Calculator</h1>
+        
+        <!-- Project Details -->
+        <div class="mb-4">
+            <label class="form-label">Project Name</label>
+            <input type="text" class="form-control" id="projectName" placeholder="Kitchen Floor">
+        </div>
+
+        <!-- Surface Type Toggle -->
+        <div class="toggle-group">
+            <div class="toggle-btn active" data-type="floor" id="floorBtn">Floor</div>
+            <div class="toggle-btn" data-type="wall" id="wallBtn">Wall</div>
+        </div>
+
+        <!-- Area Dimensions -->
+        <div class="dimension-section">
+            <h3 class="section-title"><span id="surfaceType">Floor</span> Dimensions</h3>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label" id="lengthLabel">Length</label>
+                    <input type="number" class="form-control" id="length" step="0.01">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Width</label>
+                    <input type="number" class="form-control" id="width" step="0.01">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Unit</label>
+                    <select class="form-select" id="areaUnit">
+                        <option value="ft">Feet</option>
+                        <option value="m">Meters</option>
+                        <option value="in">Inches</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="mm">Millimeters</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tile Specifications -->
+        <div class="tile-specs mt-4">
+            <h3 class="section-title">Tile Specifications</h3>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Tile Length</label>
+                    <input type="number" class="form-control" id="tileLength" step="0.01">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Tile Width</label>
+                    <input type="number" class="form-control" id="tileWidth" step="0.01">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Tile Unit</label>
+                    <select class="form-select" id="tileUnit">
+                        <option value="ft">Feet</option>
+                        <option value="m">Meters</option>
+                        <option value="in">Inches</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="mm">Millimeters</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Tile Price (per sq.ft)</label>
+                    <input type="number" class="form-control" id="tilePrice" step="0.01">
+                </div>
+            </div>
+        </div>
+
+        <!-- Skirting Section -->
+        <div class="skirting-section mt-4">
+            <h3 class="section-title">Skirting Options</h3>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="skirtingEnabled">
+                <label class="form-check-label" for="skirtingEnabled">Include Skirting</label>
+            </div>
+            <div class="skirting-inputs mt-3" style="display: none;">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Skirting Height</label>
+                        <input type="number" class="form-control" id="skirtingHeight" step="0.1">
+                        <select class="form-select mt-2" id="skirtingHeightUnit">
+                            <option value="in">Inches</option>
+                            <option value="cm">Centimeters</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Tile Price (per sq.ft)</label>
+                        <input type="number" class="form-control" id="skirtingTilePrice" step="0.01">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Labor Charge (per ft)</label>
+                        <input type="number" class="form-control" id="skirtingLabor" step="0.01">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Material Selection -->
+        <div class="material-section mt-4">
+            <h3 class="section-title">Material Options</h3>
+            <ul class="nav nav-pills mb-3" id="materialTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#adhesive">Tile Adhesive</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#concrete">Concrete + Cement</button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="adhesive">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Thickness (mm)</label>
+                            <input type="number" class="form-control" id="adhesiveThickness" value="3" min="1" max="10">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Bag Weight (kg)</label>
+                            <input type="number" class="form-control" id="adhesiveBagWeight" value="20">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Bag Price (₹)</label>
+                            <input type="number" class="form-control" id="adhesiveBagPrice" step="0.01">
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="concrete">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Cement Bag Price (₹)</label>
+                            <input type="number" class="form-control" id="cementPrice" step="0.01">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Concrete Price (per 100kg)</label>
+                            <input type="number" class="form-control" id="concretePrice" step="0.01">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Labor Costs -->
+        <div class="labor-section mt-4">
+            <h3 class="section-title">Labor Costs</h3>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Tiling Labor (per sq.ft)</label>
+                    <input type="number" class="form-control" id="tilingLabor" step="0.01">
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculate Button -->
+        <div class="text-center mt-4">
+            <button class="btn btn-primary btn-lg" onclick="calculateCosts()">Calculate Cost</button>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results mt-5">
+            <div class="result-card">
+                <h4 class="mb-4">Cost Estimate Breakdown</h4>
+                <div id="costBreakdown"></div>
+                <div class="wastage-note">
+                    ※ Note: Not included wastage tiles. Please purchase 5-10% extra tiles.
+                </div>
+                <button class="btn btn-primary mt-3" onclick="generatePDF()">Export PDF Report</button>
+            </div>
+        </div>
+
+        <!-- SEO Content Section -->
+        <div class="seo-content">
+            <h2>Professional Tile Cost Estimation Guide</h2>
+            <p>Calculate your tiling project costs accurately with our advanced Indian tile calculator. This tool helps homeowners and contractors estimate:</p>
+            <ul>
+                <li><strong>Floor tiling costs</strong> for bedrooms, living rooms, and kitchens</li>
+                <li><strong>Wall tiling expenses</strong> for bathrooms and kitchens</li>
+                <li>Material requirements including tiles, adhesive, cement, and concrete</li>
+                <li>Labor charges for installation and skirting work</li>
+            </ul>
+            
+            <h3>Why Use Our Tile Calculator?</h3>
+            <p>Our calculator follows Indian construction standards and market rates to provide:</p>
+            <ul>
+                <li>Real-time price updates for tiles and materials</li>
+                <li>Accurate unit conversions (sq ft to sq m)</li>
+                <li>Professional PDF reports for contractors</li>
+                <li>Mobile-friendly interface for onsite calculations</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        class TileCalculator {
+            constructor() {
+                this.results = null;
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                // Surface type toggle
+                document.querySelectorAll('.toggle-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        const isWall = btn.dataset.type === 'wall';
+                        
+                        // Update labels and surface type display
+                        document.getElementById('surfaceType').textContent = isWall ? 'Wall' : 'Floor';
+                        document.getElementById('lengthLabel').textContent = isWall ? 'Height' : 'Length';
+                    });
+                });
+
+                // Skirting toggle
+                document.getElementById('skirtingEnabled').addEventListener('change', (e) => {
+                    document.querySelector('.skirting-inputs').style.display = 
+                        e.target.checked ? 'block' : 'none';
+                });
+            }
+
+            convertToFeet(value, unit) {
+                const conversions = {
+                    ft: 1,
+                    m: 3.28084,
+                    in: 0.0833333,
+                    cm: 0.0328084,
+                    mm: 0.00328084
+                };
+                return value * conversions[unit];
+            }
+
+            calculateArea() {
+                const length = parseFloat(document.getElementById('length').value) || 0;
+                const width = parseFloat(document.getElementById('width').value) || 0;
+                const unit = document.getElementById('areaUnit').value;
+                return this.convertToFeet(length, unit) * this.convertToFeet(width, unit);
+            }
+
+            calculateTileCost(area) {
+                const tileLength = parseFloat(document.getElementById('tileLength').value) || 0;
+                const tileWidth = parseFloat(document.getElementById('tileWidth').value) || 0;
+                const tileUnit = document.getElementById('tileUnit').value;
+                const price = parseFloat(document.getElementById('tilePrice').value) || 0;
+
+                if (!tileLength || !tileWidth) return { cost: 0, tiles: 0 };
+
+                const tileArea = this.convertToFeet(tileLength, tileUnit) * this.convertToFeet(tileWidth, tileUnit);
+                const tilesNeeded = area / tileArea;
+                
+                return { cost: price * area, tiles: Math.ceil(tilesNeeded) };
+            }
+
+            calculateSkirtingCost(area) {
+                if (!document.getElementById('skirtingEnabled').checked) return { tileCost: 0, laborCost: 0, total: 0, tiles: 0 };
+
+                const length = parseFloat(document.getElementById('length').value) || 0;
+                const width = parseFloat(document.getElementById('width').value) || 0;
+                const unit = document.getElementById('areaUnit').value;
+                const perimeter = 2 * (this.convertToFeet(length, unit) + this.convertToFeet(width, unit));
+
+                const height = parseFloat(document.getElementById('skirtingHeight').value) || 0;
+                const heightUnit = document.getElementById('skirtingHeightUnit').value;
+                const tilePrice = parseFloat(document.getElementById('skirtingTilePrice').value) || 0;
+                const laborRate = parseFloat(document.getElementById('skirtingLabor').value) || 0;
+
+                const heightInFeet = this.convertToFeet(height, heightUnit);
+                const skirtingArea = perimeter * heightInFeet; // Running feet × height in feet = sq.ft
+                const tileCost = skirtingArea * tilePrice;
+                const laborCost = perimeter * laborRate;
+
+                return { tileCost, laborCost, total: tileCost + laborCost, tiles: Math.ceil(skirtingArea) };
+            }
+
+            calculateMaterialCost(area) {
+                const activeTab = document.querySelector('#materialTab .active').textContent.trim();
+                
+                if (activeTab === 'Tile Adhesive') {
+                    const thickness = parseFloat(document.getElementById('adhesiveThickness').value) || 0;
+                    const bagWeight = parseFloat(document.getElementById('adhesiveBagWeight').value) || 1;
+                    const bagPrice = parseFloat(document.getElementById('adhesiveBagPrice').value) || 0;
+
+                    const consumption = thickness === 5 ? 0.8 : thickness === 3 ? 1 : 1.2;
+                    const totalKg = area * consumption;
+                    const bags = Math.ceil(totalKg / bagWeight);
+                    
+                    return { cost: bags * bagPrice, bags };
+                } else {
+                    const cementPrice = parseFloat(document.getElementById('cementPrice').value) || 0;
+                    const concretePrice = parseFloat(document.getElementById('concretePrice').value) || 0;
+
+                    const cementBags = Math.ceil(area * 1 / 50); // 1kg per sq.ft, 50kg per bag
+                    const concreteQuintal = Math.ceil(area * 6 / 100); // 6kg per sq.ft
+
+                    return { 
+                        cost: (cementBags * cementPrice) + (concreteQuintal * concretePrice),
+                        cementBags,
+                        concreteQuintal
+                    };
+                }
+            }
+
+            calculateLaborCost(area) {
+                const tilingRate = parseFloat(document.getElementById('tilingLabor').value) || 0;
+                return area * tilingRate;
+            }
+
+            displayResults(results) {
+                const breakdown = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Project Details</h5>
+                            <p>Total Area: ${results.area.toFixed(2)} sq.ft</p>
+                            <p>Total Tiles Required: ${results.tile.tiles}</p>
+                            <p>Skirting Tiles Required: ${results.skirting.tiles}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Material Requirements</h5>
+                            <p>Adhesive Bags: ${results.material.bags || 0}</p>
+                            <p>Cement Bags: ${results.material.cementBags || 0}</p>
+                            <p>Concrete Quantity: ${results.material.concreteQuintal || 0} quintals</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Material Costs</h5>
+                            <p>Tile Cost: ₹${results.tile.cost.toFixed(2)}</p>
+                            <p>${results.materialType}: ₹${results.material.cost.toFixed(2)}</p>
+                            <p>Skirting Materials: ₹${results.skirting.tileCost.toFixed(2)}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Labor Costs</h5>
+                            <p>Tiling Labor: ₹${results.laborCost.toFixed(2)}</p>
+                            <p>Skirting Labor: ₹${results.skirting.laborCost.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h4 class="text-end">Grand Total: ₹${results.grandTotal.toFixed(2)}</h4>
+                `;
+                document.getElementById('costBreakdown').innerHTML = breakdown;
+            }
+
+            generatePDF() {
+                if (!this.results) {
+                    alert("Please calculate costs before exporting to PDF.");
+                    return;
+                }
+
+                const doc = new jsPDF();
+                const projectName = document.getElementById('projectName').value || 'Untitled Project';
+                
+                // PDF Styling
+                doc.setFontSize(18);
+                doc.text(20, 20, `Tile Cost Estimate: ${projectName}`);
+                
+                // Add calculation details
+                let yPosition = 40;
+                doc.setFontSize(12);
+                
+                // Project Details
+                doc.text(20, yPosition, `Total Area: ${this.results.area.toFixed(2)} sq.ft`);
+                yPosition += 10;
+                doc.text(20, yPosition, `Total Tiles: ${this.results.tile.tiles}`);
+                yPosition += 10;
+                doc.text(20, yPosition, `Skirting Tiles: ${this.results.skirting.tiles}`);
+                yPosition += 20;
+
+                // Cost Breakdown
+                doc.setFont(undefined, 'bold');
+                doc.text(20, yPosition, "Cost Breakdown (₹)");
+                doc.setFont(undefined, 'normal');
+                yPosition += 10;
+
+                const costs = [
+                    ["Tile Cost", this.results.tile.cost.toFixed(2)],
+                    ["Material Cost", this.results.material.cost.toFixed(2)],
+                    ["Skirting Cost", this.results.skirting.total.toFixed(2)],
+                    ["Labor Cost", this.results.laborCost.toFixed(2)],
+                    ["Grand Total", this.results.grandTotal.toFixed(2)]
+                ];
+
+                // Simple table without autoTable plugin
+                costs.forEach(([label, value], index) => {
+                    doc.text(20, yPosition + (index * 10), `${label}:`);
+                    doc.text(80, yPosition + (index * 10), value);
+                });
+
+                // Save PDF
+                doc.save(`${projectName}-estimate.pdf`);
+            }
+
+            calculateCosts() {
+                const area = this.calculateArea();
+                const tile = this.calculateTileCost(area);
+                const skirting = this.calculateSkirtingCost(area);
+                const material = this.calculateMaterialCost(area);
+                const laborCost = this.calculateLaborCost(area);
+                const materialType = document.querySelector('#materialTab .active').textContent.trim();
+
+                const grandTotal = tile.cost + material.cost + laborCost + skirting.total;
+
+                this.results = {
+                    area,
+                    tile,
+                    material,
+                    materialType,
+                    laborCost,
+                    skirting,
+                    grandTotal
+                };
+
+                this.displayResults(this.results);
+            }
+        }
+
+        const calculator = new TileCalculator();
+
+        function calculateCosts() {
+            calculator.calculateCosts();
+        }
+
+        function generatePDF() {
+            calculator.generatePDF();
+        }
+    </script>
+</body>
+</html>

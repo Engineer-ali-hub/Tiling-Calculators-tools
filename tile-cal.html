@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tile Estimate Calculator - Free & Accurate | Homeowners & Contractors</title>
+    <meta name="keywords" content="tile calculator, free tile estimate, flooring calculator, tile cost estimator, multi-unit tile calculator">
+    <meta name="description" content="Calculate tiles needed, cost per sq.ft, and more with our free tile estimator. Supports feet, inches, meters, cm, mm. Perfect for homeowners and contractors!">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://yourwebsite.com/tile-calculator">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(120deg, #e0f7fa, #b2ebf2);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0288d1, #0277bd);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Updated h1 color */
+        h1 {
+            color: white; /* Changed from #01579b to teal */
+            margin-bottom: 20px;
+        }
+
+        h2, h3 {
+            color: #01579b;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        label {
+            display: block;
+            color: #0277bd;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 2px solid #b0bec5;
+            border-radius: 8px;
+            font-size: 16px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        button {
+            background: #0288d1;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #0277bd;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e1f5fe;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result-item {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #01579b;
+        }
+
+        .highlight {
+            color: #d81b60;
+            font-weight: bold;
+        }
+
+        .ad-container {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .affiliate-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .affiliate-product a {
+            color: #d81b60;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .affiliate-product a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            input, select {
+                width: 100%;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <h1>Tile Estimate Calculator</h1>
+        <p>Get the right calculation for your room!</p>
+    </header>
+
+    <div class="container">
+        <!-- AdSense Ad 1 -->
+        <div class="ad-container">
+            <p>Advertisement</p>
+            <!-- Replace with your AdSense code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXX" data-ad-slot="XXXX" data-ad-format="auto"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Tile Calculator -->
+        <div class="calculator">
+            <div class="input-group">
+                <div>
+                    <label>Room Length</label>
+                    <input type="number" id="length" placeholder="Enter length">
+                </div>
+                <div>
+                    <label>Unit</label>
+                    <select id="length-unit">
+                        <option value="ft">Feet</option>
+                        <option value="in">Inches</option>
+                        <option value="m">Meters</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="mm">Millimeters</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <label>Room Width</label>
+                    <input type="number" id="width" placeholder="Enter width">
+                </div>
+                <div>
+                    <label>Unit</label>
+                    <select id="width-unit">
+                        <option value="ft">Feet</option>
+                        <option value="in">Inches</option>
+                        <option value="m">Meters</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="mm">Millimeters</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <label>Tile Length</label>
+                    <input type="number" id="tile-length" placeholder="Tile length">
+                </div>
+                <div>
+                    <label>Unit</label>
+                    <select id="tile-length-unit">
+                        <option value="in">Inches</option>
+                        <option value="ft">Feet</option>
+                        <option value="m">Meters</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="mm">Millimeters</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <label>Tile Width</label>
+                    <input type="number" id="tile-width" placeholder="Tile width">
+                </div>
+                <div>
+                    <label>Unit</label>
+                    <select id="tile-width-unit">
+                        <option value="in">Inches</option>
+                        <option value="ft">Feet</option>
+                        <option value="m">Meters</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="mm">Millimeters</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Wastage Percentage</label>
+                <select id="wastage">
+                    <option value="5">5% (Standard)</option>
+                    <option value="10">10% (Complex Pattern)</option>
+                    <option value="15">15% (Diagonal Layout)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Price per Square Foot (₹)</label>
+                <input type="number" id="price-per-sqft" placeholder="Enter price per sq.ft">
+            </div>
+
+            <button onclick="calculateTiles()">Calculate Now</button>
+
+            <div class="result" id="result">
+                <div class="result-item">Total Area: <span class="highlight" id="total-area">0</span> sq.ft</div>
+                <div class="result-item">Tiles Needed: <span class="highlight" id="tiles-needed">0</span></div>
+                <div class="result-item">Total Cost: <span class="highlight" id="total-cost">0</span> ₹</div>
+            </div>
+        </div>
+
+        <!-- AdSense Ad 2 -->
+        <div class="ad-container">
+            <p>Advertisement</p>
+            <!-- Replace with your AdSense code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXX" data-ad-slot="XXXX" data-ad-format="auto"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Amazon Affiliate Products -->
+        <div class="affiliate-section">
+            <h3>Top Tiling Products on Amazon</h3>
+            <div class="affiliate-product">
+                <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">Roff Tile Adhesive (20kg)</a></p>
+                <p>High-strength adhesive for all tile types.</p>
+            </div>
+            <div class="affiliate-product">
+                <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">MYK Laticrete Tile Spacer (100 pcs)</a></p>
+                <p>Precision spacers for perfect tile alignment.</p>
+            </div>
+            <div class="affiliate-product">
+                <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">Weber Tiling Kit</a></p>
+                <p>All-in-one kit for professional tiling projects.</p>
+            </div>
+            <div class="affiliate-product">
+                <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">Bosch Tile Cutter</a></p>
+                <p>Powerful tool for precise tile cuts.</p>
+            </div>
+        </div>
+
+        <!-- AdSense Ad 3 -->
+        <div class="ad-container">
+            <p>Advertisement</p>
+            <!-- Replace with your AdSense code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXX" data-ad-slot="XXXX" data-ad-format="auto"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <script>
+        function convertToSquareFeet(value, unit) {
+            switch (unit) {
+                case 'ft': return value;
+                case 'in': return value / 12;
+                case 'm': return value * 3.28084;
+                case 'cm': return value / 30.48;
+                case 'mm': return value / 304.8;
+                default: return value;
+            }
+        }
+
+        function convertToSquareInches(value, unit) {
+            switch (unit) {
+                case 'in': return value;
+                case 'ft': return value * 12;
+                case 'm': return value * 39.3701;
+                case 'cm': return value / 2.54;
+                case 'mm': return value / 25.4;
+                default: return value;
+            }
+        }
+
+        function calculateTiles() {
+            const length = parseFloat(document.getElementById('length').value);
+            const lengthUnit = document.getElementById('length-unit').value;
+            const width = parseFloat(document.getElementById('width').value);
+            const widthUnit = document.getElementById('width-unit').value;
+            const tileLength = parseFloat(document.getElementById('tile-length').value);
+            const tileLengthUnit = document.getElementById('tile-length-unit').value;
+            const tileWidth = parseFloat(document.getElementById('tile-width').value);
+            const tileWidthUnit = document.getElementById('tile-width-unit').value;
+            const wastage = parseFloat(document.getElementById('wastage').value);
+            const pricePerSqft = parseFloat(document.getElementById('price-per-sqft').value);
+
+            // Convert room dimensions to square feet
+            const lengthFt = convertToSquareFeet(length, lengthUnit);
+            const widthFt = convertToSquareFeet(width, widthUnit);
+            const area = lengthFt * widthFt;
+
+            // Convert tile dimensions to square inches
+            const tileLengthIn = convertToSquareInches(tileLength, tileLengthUnit);
+            const tileWidthIn = convertToSquareInches(tileWidth, tileWidthUnit);
+            const tileArea = (tileLengthIn * tileWidthIn) / 144; // Convert sq.in to sq.ft
+
+            let tilesNeeded = area / tileArea;
+            tilesNeeded += tilesNeeded * (wastage / 100);
+
+            const totalCost = area * pricePerSqft;
+
+            document.getElementById('total-area').textContent = area.toFixed(2);
+            document.getElementById('tiles-needed').textContent = Math.ceil(tilesNeeded);
+            document.getElementById('total-cost').textContent = totalCost.toLocaleString('en-IN');
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

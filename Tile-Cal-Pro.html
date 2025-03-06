@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Professional Tile Calculator - Get precise tile calculations for flooring projects with advanced unit conversion and cutting size estimation. Perfect for contractors and DIY enthusiasts.">
+  <title>Professional Tile Calculator | Accurate Flooring Measurements</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #219a52;
+      --secondary-color: #27ae60;
+      --background-color: #f8f9fa;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: var(--background-color);
+      line-height: 1.6;
+    }
+    header {
+      text-align: center;
+      padding: 30px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    .calculator-box {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .input-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    .unit-input {
+      display: flex;
+      gap: 10px;
+    }
+    .unit-input input {
+      flex: 2;
+    }
+    .unit-input select {
+      flex: 1;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #dfe6e9;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    input:focus, select:focus {
+      border-color: var(--secondary-color);
+      outline: none;
+    }
+    button {
+      background: var(--secondary-color);
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.2s, background 0.3s;
+    }
+    button:hover {
+      background: #219a52;
+      transform: translateY(-2px);
+    }
+    #results {
+      margin-top: 30px;
+      padding: 25px;
+      background: #f1f2f6;
+      border-radius: 8px;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .result-card {
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .result-card p {
+      margin: 8px 0;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .result-card span {
+      font-weight: bold;
+      color: var(--primary-color);
+      font-size: 18px;
+    }
+    .highlight-card {
+      background: #e3f2fd !important;
+      border: 2px solid #2196F3;
+    }
+    .export-button {
+      margin: 25px auto 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #3498db;
+    }
+    .export-button:hover {
+      background: #2980b9;
+    }
+  /* Ads */
+        .ad-container {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem auto;
+            max-width: 728px;
+            text-align: center;
+        }
+  .ad-section, .affiliate-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .ad-section h3, .affiliate-section h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+        .affiliate-product {
+            margin: 15px 0;
+        }
+        .affiliate-product a {
+            color: #e47911;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .affiliate-product a:hover {
+            text-decoration: underline;
+        }
+    .qr-section {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .qr-section img {
+      width: 200px;
+      margin: 15px auto;
+      display: block;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      margin-top: 40px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 10px;
+    }
+    .seo-content {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 25px 0;
+    }
+    .benefit-card {
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .faq-section {
+      margin-top: 30px;
+    }
+    .faq-card {
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tile Calculator Pro+</h1>
+    <p>Professional Tile Calculation with Advanced Features</p>
+  </header>
+
+  <!-- Top Ad -->
+    <div class="ad-container">
+        <p class="ad-text">Advertisement</p>
+        <!-- Replace with Google Ads script -->
+        <img src="https://via.placeholder.com/728x90" alt="Ad placeholder" style="width:100%">
+    </div>
+  
+  <!-- Tile Calculator Tool -->
+  <div class="calculator-box">
+    <h2>Area Dimensions</h2>
+    <div class="input-group">
+      <div>
+        <label>Length</label>
+        <div class="unit-input">
+          <input type="number" id="area-length" step="0.01" required>
+          <select id="area-length-unit">
+            <option value="ft">Feet</option>
+            <option value="in">Inches</option>
+            <option value="m">Meters</option>
+            <option value="cm">Centimeters</option>
+            <option value="mm">Millimeters</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label>Width</label>
+        <div class="unit-input">
+          <input type="number" id="area-width" step="0.01" required>
+          <select id="area-width-unit">
+            <option value="ft">Feet</option>
+            <option value="in">Inches</option>
+            <option value="m">Meters</option>
+            <option value="cm">Centimeters</option>
+            <option value="mm">Millimeters</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <h2>Tile Specifications</h2>
+    <div class="input-group">
+      <div>
+        <label>Tile Length</label>
+        <div class="unit-input">
+          <input type="number" id="tile-length" required>
+          <select id="tile-length-unit">
+            <option value="ft">Feet</option>
+            <option value="in">Inches</option>
+            <option value="m">Meters</option>
+            <option value="cm">Centimeters</option>
+            <option value="mm">Millimeters</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label>Tile Width</label>
+        <div class="unit-input">
+          <input type="number" id="tile-width" required>
+          <select id="tile-width-unit">
+            <option value="ft">Feet</option>
+            <option value="in">Inches</option>
+            <option value="m">Meters</option>
+            <option value="cm">Centimeters</option>
+            <option value="mm">Millimeters</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label>Gap Between Tiles (mm)</label>
+      <input type="number" id="gap" value="0" step="0.1">
+    </div>
+
+    <button onclick="calculate()">Calculate Tiles</button>
+    
+    <!-- Results Section -->
+    <div id="results">
+      <h3>Calculation Results</h3>
+      <div class="result-grid">
+        <div class="result-card">
+          <p>Full Tiles in Length: <span id="full-length">0</span></p>
+          <p>+ Cutting in Length: <span id="cut-length">0 cm</span></p>
+        </div>
+        <div class="result-card">
+          <p>Full Tiles in Width: <span id="full-width">0</span></p>
+          <p>+ Cutting in Width: <span id="cut-width">0 cm</span></p>
+        </div>
+        <div class="result-card">
+          <p>Total Full Tiles reqired: <span id="total-full">0</span></p>
+          <p>Total Cutting Tiles reqired: <span id="total-cutting">0</span></p>
+        </div>
+        <div class="result-card highlight-card">
+          <p style="font-weight: bold;">Total Tiles Required: <span id="total-tiles">0</span></p>
+        </div>
+      </div>
+      <button class="export-button" onclick="exportToPDF()">Export Results as PDF</button>
+    </div>
+  </div>
+
+  <!-- Middle Ad -->
+    <div class="ad-container">
+        <p class="ad-text">Advertisement</p>
+        <!-- Replace with Google Ads script -->
+        <img src="https://via.placeholder.com/728x90" alt="Ad placeholder" style="width:100%">
+    </div>
+  
+  <!-- SEO Content Section -->
+  <div class="seo-content">
+    <h2>Professional Tile Calculation Made Simple</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <h4>Multi-Unit Flexibility</h4>
+        <p>Calculate in feet, inches, meters, centimeters, or millimeters for perfect international project planning.</p>
+      </div>
+      <div class="benefit-card">
+        <h4>Professional-Grade Accuracy</h4>
+        <p>Advanced algorithms account for grout lines and cutting requirements.</p>
+      </div>
+      <div class="benefit-card">
+        <h4>Project Optimization</h4>
+        <p>Minimize material waste with precise full-tile and cutting-piece calculations.</p>
+      </div>
+    </div>
+
+    <h3>Why Choose Our Tile Calculator?</h3>
+    <p>This specialized tool is trusted by tile contractors and interior designers for:</p>
+    <ul>
+      <li>Real-time measurement conversions between imperial and metric units</li>
+      <li>Clear visualization of full tiles vs cutting pieces</li>
+      <li>Automatic gap size calculations for perfect grout lines</li>
+      <li>Mobile-friendly interface for jobsite use</li>
+    </ul>
+
+    <div class="faq-section">
+      <h3>Tile Calculation FAQs</h3>
+      <div class="faq-card">
+        <h4>What makes this different from regular calculators?</h4>
+        <p>Our tool accounts for cutting waste pattern matching and provides separate full-tile/cut-piece counts for precise material ordering.</p>
+      </div>
+      <div class="faq-card">
+        <h4>Can I use this for irregular shaped rooms?</h4>
+        <p>While optimized for rectangular areas, professionals often use it as base calculation for complex layouts.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Ad -->
+    <div class="ad-container">
+        <p class="ad-text">Advertisement</p>
+        <!-- Replace with Google Ads script -->
+        <img src="https://via.placeholder.com/728x90" alt="Ad placeholder" style="width:100%">
+    </div>
+  
+  </div>
+            <div class="affiliate-section">
+                <h3>Recommended Tiling Products</h3>
+                <div class="affiliate-product">
+                    <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">Roff Tile Adhesive (20kg)</a></p>
+                    <p>Perfect for wall and floor tiles, strong bonding.</p>
+                </div>
+                <div class="affiliate-product">
+                    <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">MYK Laticrete Tile Spacer (100 pcs)</a></p>
+                    <p>Ensures perfect tile alignment.</p>
+                </div>
+                <div class="affiliate-product">
+                    <p><a href="https://amzn.to/YOUR_AFFILIATE_LINK" target="_blank">Weber Tiling Kit</a></p>
+                    <p>Complete set for professional tiling.</p>
+                </div>
+            </div>
+        </aside>
+
+  <!-- Support Section with QR -->
+  <div class="calculator-box qr-section">
+    <h2>Support Our Service</h2>
+    <p>Scan QR Code to Support Tile Calculator Development:</p>
+    <img src="QRCode2.png" alt="Tile Calculator Support QR Code" loading="lazy">
+    <p>UPI ID: <strong>9627136607@ybl</strong></p>
+  </div>
+
+  <footer>
+    <p>© 2025 Tiling Pro Tools. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Initialize jsPDF
+    const { jsPDF } = window.jspdf;
+
+    function convertToCM(value, unit) {
+      const conversions = {
+        'ft': 30.48,
+        'in': 2.54,
+        'm': 100,
+        'cm': 1,
+        'mm': 0.1
+      };
+      return value * conversions[unit];
+    }
+
+    function calculate() {
+      // Get area dimensions
+      const areaLength = parseFloat(document.getElementById('area-length').value);
+      const areaLengthUnit = document.getElementById('area-length-unit').value;
+      const areaWidth = parseFloat(document.getElementById('area-width').value);
+      const areaWidthUnit = document.getElementById('area-width-unit').value;
+
+      // Get tile dimensions
+      const tileLength = parseFloat(document.getElementById('tile-length').value);
+      const tileLengthUnit = document.getElementById('tile-length-unit').value;
+      const tileWidth = parseFloat(document.getElementById('tile-width').value);
+      const tileWidthUnit = document.getElementById('tile-width-unit').value;
+
+      // Convert all to centimeters
+      const areaLengthCm = convertToCM(areaLength, areaLengthUnit);
+      const areaWidthCm = convertToCM(areaWidth, areaWidthUnit);
+      const tileLengthCm = convertToCM(tileLength, tileLengthUnit);
+      const tileWidthCm = convertToCM(tileWidth, tileWidthUnit);
+      const gapCm = parseFloat(document.getElementById('gap').value) / 10;
+
+      // Calculate effective dimensions with gaps
+      const effectiveTileLength = tileLengthCm + gapCm;
+      const effectiveTileWidth = tileWidthCm + gapCm;
+
+      // Calculate full tiles
+      const fullTilesLength = Math.floor(areaLengthCm / effectiveTileLength);
+      const fullTilesWidth = Math.floor(areaWidthCm / effectiveTileWidth);
+      const totalFullTiles = fullTilesLength * fullTilesWidth;
+
+      // Calculate cutting requirements
+      const cutLength = areaLengthCm % effectiveTileLength;
+      const cutWidth = areaWidthCm % effectiveTileWidth;
+      
+      // Calculate cutting tiles needed
+      const cuttingTilesLength = cutLength > 0 ? fullTilesWidth : 0;
+      const cuttingTilesWidth = cutWidth > 0 ? fullTilesLength : 0;
+      const totalCuttingTiles = cuttingTilesLength + cuttingTilesWidth;
+
+      // Total tiles calculation
+      const totalTiles = totalFullTiles + totalCuttingTiles;
+
+      // Update results display
+      document.getElementById('full-length').textContent = fullTilesLength;
+      document.getElementById('full-width').textContent = fullTilesWidth;
+      document.getElementById('cut-length').textContent = `${cutLength.toFixed(1)} cm`;
+      document.getElementById('cut-width').textContent = `${cutWidth.toFixed(1)} cm`;
+      document.getElementById('total-full').textContent = totalFullTiles;
+      document.getElementById('total-cutting').textContent = totalCuttingTiles;
+      document.getElementById('total-tiles').textContent = totalTiles;
+    }
+
+    function exportToPDF() {
+      const doc = new jsPDF();
+      const date = new Date().toLocaleDateString();
+
+      // PDF Styling
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.setTextColor(39, 174, 96); // Primary color
+      doc.text("Professional Tile Calculation Report", 15, 20);
+      
+      // Divider line
+      doc.setDrawColor(200);
+      doc.line(15, 25, 195, 25);
+
+      // Project Details
+      doc.setFontSize(12);
+      doc.setTextColor(0);
+      doc.setFont('helvetica', 'normal');
+      
+      const details = [
+        `Date: ${date}`,
+        `Area Dimensions: ${document.getElementById('area-length').value} ${document.getElementById('area-length-unit').value} x ${document.getElementById('area-width').value} ${document.getElementById('area-width-unit').value}`,
+        `Tile Size: ${document.getElementById('tile-length').value} ${document.getElementById('tile-length-unit').value} x ${document.getElementById('tile-width').value} ${document.getElementById('tile-width-unit').value}`,
+        `Grout Gap: ${document.getElementById('gap').value} mm`
+      ];
+
+      details.forEach((text, index) => {
+        doc.text(text, 15, 35 + (index * 7));
+      });
+
+      // Results Table
+      doc.setFont('helvetica', 'bold');
+      doc.text("Calculation Results", 15, 70);
+      doc.setFont('helvetica', 'normal');
+
+      const results = [
+        { label: "Full Tiles (Length)", value: document.getElementById('full-length').textContent },
+        { label: "Cutting (Length)", value: document.getElementById('cut-length').textContent },
+        { label: "Full Tiles (Width)", value: document.getElementById('full-width').textContent },
+        { label: "Cutting (Width)", value: document.getElementById('cut-width').textContent },
+        { label: "Total Full Tiles", value: document.getElementById('total-full').textContent },
+        { label: "Total Cutting Tiles", value: document.getElementById('total-cutting').textContent },
+        { label: "Total Tiles Required", value: document.getElementById('total-tiles').textContent }
+      ];
+
+      // Table formatting
+      let yPosition = 80;
+      results.forEach((result, index) => {
+        doc.setFillColor(241, 242, 246);
+        doc.rect(15, yPosition - 4, 180, 8, 'F');
+        doc.text(`${result.label}:`, 20, yPosition);
+        doc.text(result.value, 120, yPosition);
+        yPosition += 10;
+      });
+
+      // Footer
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text("Generated by Tile Calculator Pro - www.yourdomain.com", 15, 280);
+
+      // Save PDF
+      doc.save(`Tile_Calculation_${date.replace(/\//g, '-')}.pdf`);
+    }
+  </script>
+</body>
+</html>
